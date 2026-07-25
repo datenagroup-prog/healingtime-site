@@ -1,0 +1,51 @@
+name: Daily healing quote update
+
+on:
+  schedule:
+    # 毎日 15:05 UTC = 00:05 JST に実行(日本時間の日付が変わった直後)
+    - cron: "5 15 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate today's healing quote
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/generate_quote.py
+
+      - name: Build static site
+        run: python scripts/build_site.py
+
+      - name: Commit and push if there are changes
+        run: |
+          git config user.name "healingtime-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/quotes.json docs
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: 今日の癒やし言葉を自動更新 ($(date -u +'%Y-%m-%d'))"
+            git push
+          fi
