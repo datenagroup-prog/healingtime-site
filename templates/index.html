@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block canonical_path %}/{% endblock %}
+{% block content %}
+<div class="hero">
+  <div class="date">{{ latest.date_ja }} ・ 今日の癒やし言葉</div>
+  <a class="tag" href="/archive/?category={{ latest.category }}">#{{ latest.category }}</a>
+  <div class="quote">{{ latest.quote }}</div>
+  <p class="desc">{{ latest.description }}</p>
+  <div class="share">
+    <a href="https://twitter.com/intent/tweet?url={{ site.base_url }}/quotes/{{ latest.date }}.html&text={{ latest.quote }}" target="_blank" title="Xでシェア">X</a>
+    <a href="https://social-plugins.line.me/lineit/share?url={{ site.base_url }}/quotes/{{ latest.date }}.html" target="_blank" title="LINEでシェア">L</a>
+    <a href="/quotes/{{ latest.date }}.html" title="この言葉のページへ">🔗</a>
+  </div>
+</div>
+
+{{ m.ad_slot(site.adsense_slot_top, "トップ・記事上", site.adsense_client) }}
+
+<section class="block">
+  <h2>過去の癒やし言葉</h2>
+  <div class="grid">
+    {% for q in recent %}
+      {{ m.quote_card(q) }}
+    {% endfor %}
+  </div>
+  <p style="text-align:right; margin-top:16px;"><a href="/archive/" style="font-size:13px; color:var(--text-soft);">すべての言葉を見る →</a></p>
+</section>
+
+<section class="block">
+  <h2>今日の言葉に合う、癒やしアイテム</h2>
+  <div class="products">
+    {% for p in products %}
+      {{ m.product_card(p) }}
+    {% endfor %}
+  </div>
+</section>
+
+{{ m.ad_slot(site.adsense_slot_bottom, "記事下", site.adsense_client) }}
+{% endblock %}

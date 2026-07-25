@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ site.site_name_ja }}｜{{ site.tagline }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site.description }}{% endblock %}">
+<link rel="canonical" href="{{ site.base_url }}{% block canonical_path %}/{% endblock %}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{ site.site_name_ja }}">
+<meta property="og:title" content="{% block og_title %}{{ site.site_name_ja }}{% endblock %}">
+<meta property="og:description" content="{{ self.description() }}">
+<meta property="og:url" content="{{ site.base_url }}{{ self.canonical_path() }}">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" type="application/rss+xml" title="{{ site.site_name_ja }}" href="{{ site.base_url }}/feed.xml">
+{% if site.adsense_client %}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ site.adsense_client }}" crossorigin="anonymous"></script>
+{% endif %}
+{% block head_extra %}{% endblock %}
+</head>
+<body>
+<header class="site">
+  <a class="logo" href="/">{{ site.site_name }}<small>{{ site.site_name_ja }} ・ 今日の癒やし言葉</small></a>
+  <nav class="site">
+    <a href="/">ホーム</a>
+    <a href="/archive/">言葉のアーカイブ</a>
+    <a href="/about.html">サイトについて</a>
+  </nav>
+</header>
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site">
+  <div>© {{ current_year }} {{ site.base_url.replace('https://','') }}</div>
+  <div>
+    <a href="/about.html">サイトについて</a>
+    <a href="/privacy.html">プライバシーポリシー</a>
+    <a href="/contact.html">運営者情報・お問い合わせ</a>
+  </div>
+</footer>
+</body>
+</html>

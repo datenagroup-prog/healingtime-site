@@ -1,0 +1,38 @@
+{% macro ad_slot(slot_id, label, client) %}
+{% if client and slot_id %}
+<div class="adslot" style="border:none; padding:0;">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="{{ client }}"
+       data-ad-slot="{{ slot_id }}"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+{% else %}
+<div class="adslot">広告枠({{ label }}) ー AdSense審査通過後、data/site_config.json にクライアントID・スロットIDを設定すると自動表示されます</div>
+{% endif %}
+{% endmacro %}
+
+{% macro quote_card(q) %}
+<a class="card" href="/quotes/{{ q.date }}.html">
+  <div class="d">{{ q.date_ja }}</div>
+  <div class="q">{{ q.quote }}</div>
+  <span class="c">#{{ q.category }}</span>
+</a>
+{% endmacro %}
+
+{% macro product_card(p) %}
+<div class="pcard">
+  <div class="img">{{ p.note }}</div>
+  <div class="body">
+    <span class="pr">PR</span>
+    <div class="name">{{ p.name }}</div>
+    {% if p.affiliate_url %}
+    <a class="btn" href="{{ p.affiliate_url }}" rel="nofollow sponsored" target="_blank">詳しくみる</a>
+    {% else %}
+    <a class="btn" href="#" style="opacity:.5; pointer-events:none;">準備中</a>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}言葉のアーカイブ｜{{ site.site_name_ja }}{% endblock %}
+{% block canonical_path %}/archive/{% endblock %}
+{% block content %}
+<h1 class="pagetitle">言葉のアーカイブ</h1>
+<p class="pagesub">これまでに配信した癒やしの言葉一覧です。カテゴリで絞り込めます。</p>
+
+<div class="filters" id="filters">
+  <button class="active" data-cat="all">すべて</button>
+  {% for c in categories %}
+  <button data-cat="{{ c }}">{{ c }}</button>
+  {% endfor %}
+</div>
+
+<div class="grid" id="quote-grid">
+  {% for q in quotes %}
+  <div class="card-wrap" data-cat="{{ q.category }}">
+    {{ m.quote_card(q) }}
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var initial = params.get('category') || 'all';
+  var buttons = document.querySelectorAll('#filters button');
+  var cards = document.querySelectorAll('#quote-grid .card-wrap');
+
+  function applyFilter(cat){
+    buttons.forEach(function(b){ b.classList.toggle('active', b.dataset.cat === cat); });
+    cards.forEach(function(c){
+      c.style.display = (cat === 'all' || c.dataset.cat === cat) ? 'block' : 'none';
+    });
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ applyFilter(b.dataset.cat); });
+  });
+  applyFilter(initial);
+})();
+</script>
+{% endblock %}

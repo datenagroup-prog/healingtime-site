@@ -1,0 +1,26 @@
+{
+  "site_name": "healingtime",
+  "site_name_ja": "ヒーリングタイム",
+  "tagline": "1日1分、心を整える癒やしの時間",
+  "base_url": "https://healingtime.jp",
+  "description": "毎日届く、短い癒やしの言葉。忙しい日々の中で、少しだけ立ち止まる時間を届けるメディアです。",
+  "og_image": "/og-image.png",
+  "twitter_handle": "",
+  "contact_email": "datenagroup@gmail.com",
+  "adsense_client": "",
+  "adsense_slot_top": "",
+  "adsense_slot_mid": "",
+  "adsense_slot_bottom": "",
+  "categories": [
+    "自分を大切に",
+    "仕事",
+    "人間関係",
+    "恋愛",
+    "眠れない夜に",
+    "リラックス",
+    "新しい一歩",
+    "感謝",
+    "疲れた心に",
+    "明日へ"
+  ]
+}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}運営者情報・お問い合わせ｜{{ site.site_name_ja }}{% endblock %}
+{% block canonical_path %}/contact.html{% endblock %}
+{% block content %}
+<div class="prose">
+<h1>運営者情報・お問い合わせ</h1>
+<h2>運営者</h2>
+<p>{{ site.site_name_ja }} 運営事務局</p>
+
+<h2>お問い合わせ</h2>
+<p>本サイトに関するお問い合わせは、下記メールアドレスまでご連絡ください。</p>
+<p><a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a></p>
+<p>内容を確認の上、順次ご返信いたします。返信までお時間をいただく場合がございますので、あらかじめご了承ください。</p>
+</div>
+{% endblock %}

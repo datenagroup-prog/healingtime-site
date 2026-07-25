@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ q.quote_oneline }}｜{{ site.site_name_ja }}{% endblock %}
+{% block description %}{{ q.description }}{% endblock %}
+{% block og_title %}{{ q.quote_oneline }}{% endblock %}
+{% block canonical_path %}/quotes/{{ q.date }}.html{% endblock %}
+{% block content %}
+<div class="hero">
+  <div class="date">{{ q.date_ja }} ・ 今日の癒やし言葉</div>
+  <a class="tag" href="/archive/?category={{ q.category }}">#{{ q.category }}</a>
+  <div class="quote">{{ q.quote }}</div>
+  <p class="desc">{{ q.description }}</p>
+  <div class="share">
+    <a href="https://twitter.com/intent/tweet?url={{ site.base_url }}/quotes/{{ q.date }}.html&text={{ q.quote }}" target="_blank" title="Xでシェア">X</a>
+    <a href="https://social-plugins.line.me/lineit/share?url={{ site.base_url }}/quotes/{{ q.date }}.html" target="_blank" title="LINEでシェア">L</a>
+  </div>
+</div>
+
+<div class="quote-nav">
+  {% if prev_q %}<a href="/quotes/{{ prev_q.date }}.html">← {{ prev_q.date_ja }}</a>{% else %}<span></span>{% endif %}
+  {% if next_q %}<a href="/quotes/{{ next_q.date }}.html">{{ next_q.date_ja }} →</a>{% else %}<span></span>{% endif %}
+</div>
+
+{{ m.ad_slot(site.adsense_slot_mid, "記事本文下", site.adsense_client) }}
+
+<section class="block">
+  <h2>{{ q.category }} の他の言葉</h2>
+  <div class="grid">
+    {% for r in related %}
+      {{ m.quote_card(r) }}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="block">
+  <h2>おすすめの癒やしアイテム</h2>
+  <div class="products">
+    {% for p in products %}
+      {{ m.product_card(p) }}
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
