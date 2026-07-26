@@ -8,8 +8,22 @@
 <p>{{ site.site_name_ja }} 運営事務局</p>
 
 <h2>お問い合わせ</h2>
-<p>本サイトに関するお問い合わせは、下記メールアドレスまでご連絡ください。</p>
-<p><a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a></p>
-<p>内容を確認の上、順次ご返信いたします。返信までお時間をいただく場合がございますので、あらかじめご了承ください。</p>
+<p>本サイトに関するお問い合わせは、下記のフォームからご連絡ください。内容を確認の上、順次ご返信いたします。返信までお時間をいただく場合がございますので、あらかじめご了承ください。</p>
+
+<form action="https://formspree.io/f/https://formspree.io/f/xykrbawb" method="POST" class="contact-form">
+  <label for="name">お名前(任意)</label>
+  <input type="text" id="name" name="name" placeholder="山田 太郎">
+
+  <label for="email">返信先メールアドレス</label>
+  <input type="email" id="email" name="email" required placeholder="you@example.com">
+
+  <label for="message">お問い合わせ内容</label>
+  <textarea id="message" name="message" rows="6" required placeholder="お問い合わせ内容をご記入ください"></textarea>
+
+  <input type="text" name="_gotcha" style="display:none">
+  <input type="hidden" name="_subject" value="healingtime.jpへのお問い合わせ">
+
+  <button type="submit">送信する</button>
+</form>
 </div>
 {% endblock %}
