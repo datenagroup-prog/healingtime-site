@@ -71,8 +71,11 @@ def build():
     (OUT_DIR / "archive").mkdir(parents=True)
 
     # static assets
-    shutil.copy(STATIC_DIR / "style.css", OUT_DIR / "style.css")
-    (OUT_DIR / ".nojekyll").write_text("", encoding="utf-8")
+    for asset in ["style.css", "favicon.ico", "favicon.svg", "apple-touch-icon.png"]:
+           src = STATIC_DIR / asset
+           if src.exists():
+               shutil.copy(src, OUT_DIR / asset)
+       (OUT_DIR / ".nojekyll").write_text("", encoding="utf-8")
 
     # custom domain (GitHub Pages)
     base_url = site.get("base_url", "")
