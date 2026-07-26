@@ -42,7 +42,7 @@
 <h2>お問い合わせ</h2>
 <p>本サイトに関するお問い合わせは、下記のフォームからご連絡ください。内容を確認の上、順次ご返信いたします。返信までお時間をいただく場合がございますので、あらかじめご了承ください。</p>
 
-<form action="https://formspree.io/f/xykrbawb" method="POST" class="contact-form">
+<form id="contact-form" action="https://formspree.io/f/xykrbawb" method="POST" class="contact-form">
   <label for="name">お名前(任意)</label>
   <input type="text" id="name" name="name" placeholder="山田 太郎">
 
@@ -54,10 +54,51 @@
 
   <input type="text" name="_gotcha" style="display:none">
   <input type="hidden" name="_subject" value="healingtime.jpへのお問い合わせ">
-  <input type="hidden" name="_next" value="https://healingtime.jp/contact-thanks.html">
 
-  <button type="submit">送信する</button>
+  <button type="submit" id="contact-submit">送信する</button>
 </form>
+
+<div id="contact-thanks" style="display:none;">
+  <p style="font-size:16px; font-weight:bold; margin-bottom:8px;">メッセージが届きました。ありがとうございます。</p>
+  <p>内容を確認の上、順次ご返信いたします。返信までお時間をいただく場合がございますので、あらかじめご了承ください。</p>
+</div>
+
+<p id="contact-error" style="display:none; color:#c0392b; margin-top:14px;">送信に失敗しました。お手数ですが、しばらくしてからもう一度お試しください。</p>
+
+<script>
+(function () {
+  var form = document.getElementById('contact-form');
+  var thanks = document.getElementById('contact-thanks');
+  var errorMsg = document.getElementById('contact-error');
+  var submitBtn = document.getElementById('contact-submit');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errorMsg.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = '送信中...';
+
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(function (response) {
+      if (response.ok) {
+        form.style.display = 'none';
+        thanks.style.display = 'block';
+      } else {
+        errorMsg.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '送信する';
+      }
+    }).catch(function () {
+      errorMsg.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '送信する';
+    });
+  });
+})();
+</script>
 </div>
 
 </main>
