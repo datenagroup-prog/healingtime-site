@@ -117,6 +117,10 @@ def build():
         tpl = env.get_template(name)
         (OUT_DIR / name).write_text(tpl.render(**common_ctx), encoding="utf-8")
 
+    # contact form "thank you" page
+    tpl = env.get_template("thanks.html")
+    (OUT_DIR / "contact-thanks.html").write_text(tpl.render(**common_ctx), encoding="utf-8")
+
     # robots.txt
     (OUT_DIR / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\nSitemap: {base_url}/sitemap.xml\n", encoding="utf-8"
