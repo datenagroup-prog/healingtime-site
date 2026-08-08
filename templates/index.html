@@ -4,7 +4,7 @@
 {% block content %}
 <div class="hero">
   <div class="date">{{ latest.date_ja }} ・ 今日の癒やし言葉</div>
-  <a class="tag" href="/archive/?category={{ latest.category }}">#{{ latest.category }}</a>
+  <a class="tag" href="{% if latest.theme_slug %}/theme/{{ latest.theme_slug }}/{% else %}/archive/?category={{ latest.category }}{% endif %}">#{{ latest.category }}</a>
   <div class="quote">{{ latest.quote }}</div>
   <p class="desc">{{ latest.description }}</p>
   <div class="share">
@@ -24,6 +24,20 @@
     {% endfor %}
   </div>
   <p style="text-align:right; margin-top:16px;"><a href="/archive/" style="font-size:13px; color:var(--text-soft);">すべての言葉を見る →</a></p>
+</section>
+
+<section class="block">
+  <h2>テーマから探す</h2>
+  <div class="grid">
+    {% for t in themes %}
+    <a class="card" href="/theme/{{ t.slug }}/">
+      <div class="d">テーマ別まとめ</div>
+      <div class="q">{{ t.title }}</div>
+      <span class="c">#{{ t.category }}</span>
+    </a>
+    {% endfor %}
+  </div>
+  <p style="text-align:right; margin-top:16px;"><a href="/theme/" style="font-size:13px; color:var(--text-soft);">すべてのテーマを見る →</a></p>
 </section>
 
 <section class="block">
