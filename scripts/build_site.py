@@ -53,6 +53,11 @@ def build():
     category_to_slug = {t["category"]: t["slug"] for t in themes}
     quotes = enrich_quotes(load_json("quotes.json"), category_to_slug)
 
+    columns = load_json("columns.json")
+    columns = sorted(columns, key=lambda c: c["date"], reverse=True)
+    for c in columns:
+        c["date_ja"] = date_ja(c["date"])
+
     if not quotes:
         raise SystemExit("data/quotes.json が空です。先に scripts/generate_quote.py 等で言葉を追加してください。")
 
@@ -74,6 +79,7 @@ def build():
     (OUT_DIR / "quotes").mkdir(parents=True)
     (OUT_DIR / "archive").mkdir(parents=True)
     (OUT_DIR / "theme").mkdir(parents=True)
+    (OUT_DIR / "column").mkdir(parents=True)
 
     # static assets
     for asset in ["style.css", "favicon.ico", "favicon.svg", "apple-touch-icon.png"]:
@@ -94,7 +100,7 @@ def build():
     # index.html
     tpl = env.get_template("index.html")
     (OUT_DIR / "index.html").write_text(
-        tpl.render(latest=latest, recent=recent, products=products, themes=themes, **common_ctx),
+        tpl.render(latest=latest, recent=recent, products=products, themes=themes, columns=columns, **common_ctx),
         encoding="utf-8",
     )
 
@@ -122,8 +128,10 @@ def build():
     for t in themes:
         t_quotes = list(reversed([q for q in quotes if q["category"] == t["category"]]))
         other_themes = [ot for ot in themes if ot["slug"] != t["slug"]]
+        related_columns = [c for c in columns if c.get("related_theme_slug") == t["slug"]]
         html = tpl.render(
-            theme=t, quotes=t_quotes, other_themes=other_themes, products=products, **common_ctx
+            theme=t, quotes=t_quotes, other_themes=other_themes, products=products,
+            related_columns=related_columns, **common_ctx
         )
         page_dir = OUT_DIR / "theme" / t["slug"]
         page_dir.mkdir(parents=True, exist_ok=True)
@@ -133,6 +141,25 @@ def build():
     tpl = env.get_template("theme_index.html")
     (OUT_DIR / "theme" / "index.html").write_text(
         tpl.render(themes=themes, **common_ctx), encoding="utf-8"
+    )
+
+    # column articles (お役立ちコラム記事)
+    tpl = env.get_template("column.html")
+    for c in columns:
+        related_theme = next((t for t in themes if t["slug"] == c.get("related_theme_slug")), None)
+        other_columns = [oc for oc in columns if oc["slug"] != c["slug"]]
+        html = tpl.render(
+            column=c, related_theme=related_theme, other_columns=other_columns,
+            products=products, **common_ctx
+        )
+        page_dir = OUT_DIR / "column" / c["slug"]
+        page_dir.mkdir(parents=True, exist_ok=True)
+        (page_dir / "index.html").write_text(html, encoding="utf-8")
+
+    # column hub page (お役立ちコラム一覧)
+    tpl = env.get_template("column_index.html")
+    (OUT_DIR / "column" / "index.html").write_text(
+        tpl.render(columns=columns, **common_ctx), encoding="utf-8"
     )
 
     # static prose pages
@@ -150,9 +177,10 @@ def build():
     )
 
     # sitemap.xml
-    urls = ["/", "/archive/", "/theme/", "/about.html", "/privacy.html", "/contact.html"]
+    urls = ["/", "/archive/", "/theme/", "/column/", "/about.html", "/privacy.html", "/contact.html"]
     urls += [f"/quotes/{q['date']}.html" for q in quotes]
     urls += [f"/theme/{t['slug']}/" for t in themes]
+    urls += [f"/column/{c['slug']}/" for c in columns]
     sitemap_items = "\n".join(
         f"  <url><loc>{escape(base_url + u)}</loc></url>" for u in urls
     )
