@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ column.meta_title }}{% endblock %}
+{% block description %}{{ column.meta_description }}{% endblock %}
+{% block og_title %}{{ column.title }}{% endblock %}
+{% block canonical_path %}/column/{{ column.slug }}/{% endblock %}
+{% block content %}
+<h1 class="pagetitle">{{ column.title }}</h1>
+<p class="pagesub">{{ column.date_ja }}</p>
+
+<div class="prose">
+  <p>{{ column.lead }}</p>
+
+  {% for s in column.sections %}
+  <h2>{{ s.heading }}</h2>
+  {% for p in s.paragraphs %}
+  <p>{{ p }}</p>
+  {% endfor %}
+  {% endfor %}
+</div>
+
+{{ m.ad_slot(site.adsense_slot_mid, "コラム記事・本文下", site.adsense_client) }}
+
+{% if related_theme %}
+<section class="block">
+  <h2>あわせて読みたい、今日の癒やし言葉</h2>
+  <p class="pagesub">「{{ related_theme.category }}」に関する言葉をまとめています。</p>
+  <a class="card" href="/theme/{{ related_theme.slug }}/" style="max-width:360px;">
+    <div class="d">テーマ別まとめ</div>
+    <div class="q">{{ related_theme.title }}</div>
+    <span class="c">#{{ related_theme.category }}</span>
+  </a>
+</section>
+{% endif %}
+
+<section class="block">
+  <h2>この記事に合う、癒やしアイテム</h2>
+  <div class="products">
+    {% for p in products %}
+      {{ m.product_card(p) }}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="block">
+  <h2>他のコラム記事</h2>
+  <div class="grid">
+    {% for c in other_columns %}
+    <a class="card" href="/column/{{ c.slug }}/">
+      <div class="d">お役立ちコラム ・ {{ c.date_ja }}</div>
+      <div class="q">{{ c.title }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+{{ m.ad_slot(site.adsense_slot_bottom, "コラム記事・下部", site.adsense_client) }}
+{% endblock %}
