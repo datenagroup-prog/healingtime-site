@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}お役立ちコラム｜{{ site.site_name_ja }}{% endblock %}
+{% block description %}眠れない夜の過ごし方、仕事や人間関係の疲れとの向き合い方など、日々の心を軽くするためのお役立ちコラム記事一覧です。{% endblock %}
+{% block canonical_path %}/column/{% endblock %}
+{% block content %}
+<h1 class="pagetitle">お役立ちコラム</h1>
+<p class="pagesub">日々の心を軽くするための、お役立ちコラム記事一覧です。</p>
+
+<div class="grid" style="grid-template-columns: repeat(2,1fr);">
+  {% for c in columns %}
+  <a class="card" href="/column/{{ c.slug }}/">
+    <div class="d">{{ c.date_ja }}</div>
+    <div class="q">{{ c.title }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
