@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ theme.meta_title }}{% endblock %}
+{% block description %}{{ theme.meta_description }}{% endblock %}
+{% block og_title %}{{ theme.title }}{% endblock %}
+{% block canonical_path %}/theme/{{ theme.slug }}/{% endblock %}
+{% block content %}
+<h1 class="pagetitle">{{ theme.title }}</h1>
+<p class="pagesub">{{ theme.lead }}</p>
+
+<div class="prose" style="margin-bottom:32px;">
+  {% for p in theme.intro_paragraphs %}
+  <p>{{ p }}</p>
+  {% endfor %}
+</div>
+
+{{ m.ad_slot(site.adsense_slot_top, "テーマページ・上部", site.adsense_client) }}
+
+<section class="block">
+  <h2>「{{ theme.category }}」の癒やし言葉一覧</h2>
+  {% if quotes %}
+  <div class="grid">
+    {% for q in quotes %}
+      {{ m.quote_card(q) }}
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="font-size:14px; color:var(--text-soft);">現在準備中です。まもなく言葉を追加してまいります。</p>
+  {% endif %}
+</section>
+
+<section class="block">
+  <h2>あわせて読みたい、他のテーマ</h2>
+  <div class="grid">
+    {% for t in other_themes %}
+    <a class="card" href="/theme/{{ t.slug }}/">
+      <div class="d">テーマ別まとめ</div>
+      <div class="q">{{ t.title }}</div>
+      <span class="c">#{{ t.category }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="block">
+  <h2>{{ theme.category }}な時におすすめの癒やしアイテム</h2>
+  <div class="products">
+    {% for p in products %}
+      {{ m.product_card(p) }}
+    {% endfor %}
+  </div>
+</section>
+
+{{ m.ad_slot(site.adsense_slot_bottom, "テーマページ・下部", site.adsense_client) }}
+{% endblock %}
