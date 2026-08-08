@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://healingtime.jp/</loc></url>
   <url><loc>https://healingtime.jp/archive/</loc></url>
+  <url><loc>https://healingtime.jp/theme/</loc></url>
   <url><loc>https://healingtime.jp/about.html</loc></url>
   <url><loc>https://healingtime.jp/privacy.html</loc></url>
   <url><loc>https://healingtime.jp/contact.html</loc></url>
@@ -29,4 +30,14 @@
   <url><loc>https://healingtime.jp/quotes/2026-08-06.html</loc></url>
   <url><loc>https://healingtime.jp/quotes/2026-08-07.html</loc></url>
   <url><loc>https://healingtime.jp/quotes/2026-08-08.html</loc></url>
+  <url><loc>https://healingtime.jp/theme/jibun-wo-taisetsu-ni/</loc></url>
+  <url><loc>https://healingtime.jp/theme/shigoto/</loc></url>
+  <url><loc>https://healingtime.jp/theme/ningen-kankei/</loc></url>
+  <url><loc>https://healingtime.jp/theme/renai/</loc></url>
+  <url><loc>https://healingtime.jp/theme/nemurenai-yoru-ni/</loc></url>
+  <url><loc>https://healingtime.jp/theme/relax/</loc></url>
+  <url><loc>https://healingtime.jp/theme/atarashii-ippo/</loc></url>
+  <url><loc>https://healingtime.jp/theme/kansha/</loc></url>
+  <url><loc>https://healingtime.jp/theme/tsukareta-kokoro-ni/</loc></url>
+  <url><loc>https://healingtime.jp/theme/ashita-e/</loc></url>
 </urlset>
