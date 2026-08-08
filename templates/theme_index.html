@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}テーマから探す｜{{ site.site_name_ja }}{% endblock %}
+{% block description %}気持ちや状況に合わせてテーマ別にまとめた、癒やしの言葉一覧です。眠れない夜、仕事で疲れた時、人間関係の悩みなど、今の自分に合う言葉が見つかります。{% endblock %}
+{% block canonical_path %}/theme/{% endblock %}
+{% block content %}
+<h1 class="pagetitle">テーマから探す</h1>
+<p class="pagesub">今の気持ちや状況に合わせて、テーマ別に癒やしの言葉をまとめています。</p>
+
+<div class="grid" style="grid-template-columns: repeat(2,1fr);">
+  {% for t in themes %}
+  <a class="card" href="/theme/{{ t.slug }}/">
+    <div class="d">テーマ別まとめ</div>
+    <div class="q">{{ t.title }}</div>
+    <span class="c">#{{ t.category }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
