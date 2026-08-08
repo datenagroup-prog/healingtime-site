@@ -29,6 +29,20 @@
   {% endif %}
 </section>
 
+{% if related_columns %}
+<section class="block">
+  <h2>関連するお役立ちコラム</h2>
+  <div class="grid">
+    {% for c in related_columns %}
+    <a class="card" href="/column/{{ c.slug }}/">
+      <div class="d">お役立ちコラム ・ {{ c.date_ja }}</div>
+      <div class="q">{{ c.title }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <section class="block">
   <h2>あわせて読みたい、他のテーマ</h2>
   <div class="grid">
