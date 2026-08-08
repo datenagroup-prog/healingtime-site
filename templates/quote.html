@@ -7,7 +7,7 @@
 {% block content %}
 <div class="hero">
   <div class="date">{{ q.date_ja }} ・ 今日の癒やし言葉</div>
-  <a class="tag" href="/archive/?category={{ q.category }}">#{{ q.category }}</a>
+  <a class="tag" href="{% if q.theme_slug %}/theme/{{ q.theme_slug }}/{% else %}/archive/?category={{ q.category }}{% endif %}">#{{ q.category }}</a>
   <div class="quote">{{ q.quote }}</div>
   <p class="desc">{{ q.description }}</p>
   <div class="share">
