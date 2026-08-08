@@ -41,6 +41,19 @@
 </section>
 
 <section class="block">
+  <h2>お役立ちコラム</h2>
+  <div class="grid">
+    {% for c in columns %}
+    <a class="card" href="/column/{{ c.slug }}/">
+      <div class="d">お役立ちコラム ・ {{ c.date_ja }}</div>
+      <div class="q">{{ c.title }}</div>
+    </a>
+    {% endfor %}
+  </div>
+  <p style="text-align:right; margin-top:16px;"><a href="/column/" style="font-size:13px; color:var(--text-soft);">すべてのコラムを見る →</a></p>
+</section>
+
+<section class="block">
   <h2>今日の言葉に合う、癒やしアイテム</h2>
   <div class="products">
     {% for p in products %}
