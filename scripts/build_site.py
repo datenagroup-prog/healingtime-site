@@ -65,6 +65,7 @@ def build():
         loader=FileSystemLoader(str(TEMPLATE_DIR)),
         autoescape=select_autoescape(["html"]),
     )
+    env.filters["tojson"] = lambda v: json.dumps(v, ensure_ascii=False)
     current_year = datetime.date.today().year
     common_ctx = {
         "site": site,
@@ -100,7 +101,7 @@ def build():
     # index.html
     tpl = env.get_template("index.html")
     (OUT_DIR / "index.html").write_text(
-        tpl.render(latest=latest, recent=recent, products=products, themes=themes, columns=columns, **common_ctx),
+        tpl.render(latest=latest, recent=recent, products=products, themes=themes, columns=columns[:4], **common_ctx),
         encoding="utf-8",
     )
 
@@ -147,7 +148,7 @@ def build():
     tpl = env.get_template("column.html")
     for c in columns:
         related_theme = next((t for t in themes if t["slug"] == c.get("related_theme_slug")), None)
-        other_columns = [oc for oc in columns if oc["slug"] != c["slug"]]
+        other_columns = [oc for oc in columns if oc["slug"] != c["slug"]][:4]
         html = tpl.render(
             column=c, related_theme=related_theme, other_columns=other_columns,
             products=products, **common_ctx
