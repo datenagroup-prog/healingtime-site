@@ -4,6 +4,28 @@
 {% block description %}{{ column.meta_description }}{% endblock %}
 {% block og_title %}{{ column.title }}{% endblock %}
 {% block canonical_path %}/column/{{ column.slug }}/{% endblock %}
+{% block head_extra %}
+{% if column.faq %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for item in column.faq %}
+    {
+      "@type": "Question",
+      "name": {{ item.q | tojson | safe }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ item.a | tojson | safe }}
+      }
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
 {% block content %}
 <h1 class="pagetitle">{{ column.title }}</h1>
 <p class="pagesub">{{ column.date_ja }}</p>
@@ -18,6 +40,18 @@
   {% endfor %}
   {% endfor %}
 </div>
+
+{% if column.faq %}
+<section class="block">
+  <h2>よくある質問</h2>
+  <div class="prose">
+  {% for item in column.faq %}
+    <p style="font-weight:bold; margin-top:18px;">Q. {{ item.q }}</p>
+    <p>A. {{ item.a }}</p>
+  {% endfor %}
+  </div>
+</section>
+{% endif %}
 
 {{ m.ad_slot(site.adsense_slot_mid, "コラム記事・本文下", site.adsense_client) }}
 
