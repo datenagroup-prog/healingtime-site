@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ music.meta_title }}{% endblock %}
+{% block description %}{{ music.meta_description }}{% endblock %}
+{% block og_title %}{{ music.title }}{% endblock %}
+{% block canonical_path %}/music/{{ music.slug }}/{% endblock %}
+{% block content %}
+<h1 class="pagetitle">{{ music.title }}</h1>
+<p class="pagesub">{{ music.date_ja }}</p>
+
+<div class="prose" style="margin-bottom:32px;">
+  <p>{{ music.lead }}</p>
+</div>
+
+{{ m.ad_slot(site.adsense_slot_top, "BGMまとめページ・上部", site.adsense_client) }}
+
+<section class="block">
+  {% for t in music.tracks %}
+  <div class="prose" style="margin-bottom:40px;">
+    <h2>{{ t.title }}</h2>
+    <p class="pagesub" style="margin-bottom:12px;">{{ t.channel }}</p>
+    <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; max-width:100%; border-radius:var(--radius); box-shadow:var(--shadow);">
+      <iframe
+        src="https://www.youtube.com/embed/{{ t.video_id }}"
+        style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+        title="{{ t.title }}"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <p style="margin-top:12px;">{{ t.note }}</p>
+  </div>
+  {% endfor %}
+</section>
+
+<div class="prose" style="margin-bottom:32px;">
+  <p>{{ music.outro }}</p>
+</div>
+
+{{ m.ad_slot(site.adsense_slot_mid, "BGMまとめページ・本文下", site.adsense_client) }}
+
+{% if related_theme %}
+<section class="block">
+  <h2>あわせて読みたい、今日の癒やし言葉</h2>
+  <p class="pagesub">「{{ related_theme.category }}」に関する言葉をまとめています。</p>
+  <a class="card" href="/theme/{{ related_theme.slug }}/" style="max-width:360px;">
+    <div class="d">テーマ別まとめ</div>
+    <div class="q">{{ related_theme.title }}</div>
+    <span class="c">#{{ related_theme.category }}</span>
+  </a>
+</section>
+{% endif %}
+
+<section class="block">
+  <h2>この音楽に合う、癒やしアイテム</h2>
+  <div class="products">
+    {% for p in products %}
+      {{ m.product_card(p) }}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="block">
+  <h2>他のBGMまとめ</h2>
+  <div class="grid">
+    {% for mu in other_music %}
+    <a class="card" href="/music/{{ mu.slug }}/">
+      <div class="d">音楽・BGMまとめ ・ {{ mu.date_ja }}</div>
+      <div class="q">{{ mu.title }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+{{ m.ad_slot(site.adsense_slot_bottom, "BGMまとめページ・下部", site.adsense_client) }}
+{% endblock %}
