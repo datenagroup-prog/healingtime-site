@@ -244,3 +244,10 @@ def build():
         "</channel></rss>\n"
     )
     (OUT_DIR / "feed.xml").write_text(feed_xml, encoding="utf-8")
+
+    print(f"ビルド完了: {len(quotes)} 件の言葉を {OUT_DIR} に生成しました。")
+    print(f"最新: {latest['date']} - {latest['quote_oneline']}")
+
+
+if __name__ == "__main__":
+    build()
