@@ -12,6 +12,9 @@
 <meta property="og:description" content="{{ self.description() }}">
 <meta property="og:url" content="{{ site.base_url }}{{ self.canonical_path() }}">
 <meta name="twitter:card" content="summary">
+{% if site.google_site_verification %}
+<meta name="google-site-verification" content="{{ site.google_site_verification }}">
+{% endif %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
