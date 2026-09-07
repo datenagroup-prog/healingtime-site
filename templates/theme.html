@@ -43,6 +43,20 @@
 </section>
 {% endif %}
 
+{% if related_music %}
+<section class="block">
+  <h2>関連する音楽・BGMまとめ</h2>
+  <div class="grid">
+    {% for mu in related_music %}
+    <a class="card" href="/music/{{ mu.slug }}/">
+      <div class="d">音楽・BGMまとめ ・ {{ mu.date_ja }}</div>
+      <div class="q">{{ mu.title }}</div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <section class="block">
   <h2>あわせて読みたい、他のテーマ</h2>
   <div class="grid">
