@@ -58,6 +58,11 @@ def build():
     for c in columns:
         c["date_ja"] = date_ja(c["date"])
 
+    music = load_json("music.json")
+    music = sorted(music, key=lambda mu: mu["date"], reverse=True)
+    for mu in music:
+        mu["date_ja"] = date_ja(mu["date"])
+
     if not quotes:
         raise SystemExit("data/quotes.json が空です。先に scripts/generate_quote.py 等で言葉を追加してください。")
 
@@ -81,6 +86,7 @@ def build():
     (OUT_DIR / "archive").mkdir(parents=True)
     (OUT_DIR / "theme").mkdir(parents=True)
     (OUT_DIR / "column").mkdir(parents=True)
+    (OUT_DIR / "music").mkdir(parents=True)
 
     # static assets
     for asset in ["style.css", "favicon.ico", "favicon.svg", "apple-touch-icon.png"]:
@@ -101,7 +107,10 @@ def build():
     # index.html
     tpl = env.get_template("index.html")
     (OUT_DIR / "index.html").write_text(
-        tpl.render(latest=latest, recent=recent, products=products, themes=themes, columns=columns[:4], **common_ctx),
+        tpl.render(
+            latest=latest, recent=recent, products=products, themes=themes,
+            columns=columns[:4], music=music[:4], **common_ctx
+        ),
         encoding="utf-8",
     )
 
@@ -130,9 +139,10 @@ def build():
         t_quotes = list(reversed([q for q in quotes if q["category"] == t["category"]]))
         other_themes = [ot for ot in themes if ot["slug"] != t["slug"]]
         related_columns = [c for c in columns if c.get("related_theme_slug") == t["slug"]]
+        related_music = [mu for mu in music if mu.get("related_theme_slug") == t["slug"]]
         html = tpl.render(
             theme=t, quotes=t_quotes, other_themes=other_themes, products=products,
-            related_columns=related_columns, **common_ctx
+            related_columns=related_columns, related_music=related_music, **common_ctx
         )
         page_dir = OUT_DIR / "theme" / t["slug"]
         page_dir.mkdir(parents=True, exist_ok=True)
@@ -163,6 +173,25 @@ def build():
         tpl.render(columns=columns, **common_ctx), encoding="utf-8"
     )
 
+    # music curation pages (BGM/音楽まとめページ)
+    tpl = env.get_template("music.html")
+    for mu in music:
+        related_theme = next((t for t in themes if t["slug"] == mu.get("related_theme_slug")), None)
+        other_music = [om for om in music if om["slug"] != mu["slug"]][:4]
+        html = tpl.render(
+            music=mu, related_theme=related_theme, other_music=other_music,
+            products=products, **common_ctx
+        )
+        page_dir = OUT_DIR / "music" / mu["slug"]
+        page_dir.mkdir(parents=True, exist_ok=True)
+        (page_dir / "index.html").write_text(html, encoding="utf-8")
+
+    # music hub page (音楽・BGMまとめ一覧)
+    tpl = env.get_template("music_index.html")
+    (OUT_DIR / "music" / "index.html").write_text(
+        tpl.render(music=music, **common_ctx), encoding="utf-8"
+    )
+
     # static prose pages
     for name in ["about.html", "privacy.html", "contact.html"]:
         tpl = env.get_template(name)
@@ -178,10 +207,11 @@ def build():
     )
 
     # sitemap.xml
-    urls = ["/", "/archive/", "/theme/", "/column/", "/about.html", "/privacy.html", "/contact.html"]
+    urls = ["/", "/archive/", "/theme/", "/column/", "/music/", "/about.html", "/privacy.html", "/contact.html"]
     urls += [f"/quotes/{q['date']}.html" for q in quotes]
     urls += [f"/theme/{t['slug']}/" for t in themes]
     urls += [f"/column/{c['slug']}/" for c in columns]
+    urls += [f"/music/{mu['slug']}/" for mu in music]
     sitemap_items = "\n".join(
         f"  <url><loc>{escape(base_url + u)}</loc></url>" for u in urls
     )
@@ -214,10 +244,3 @@ def build():
         "</channel></rss>\n"
     )
     (OUT_DIR / "feed.xml").write_text(feed_xml, encoding="utf-8")
-
-    print(f"ビルド完了: {len(quotes)} 件の言葉を {OUT_DIR} に生成しました。")
-    print(f"最新: {latest['date']} - {latest['quote_oneline']}")
-
-
-if __name__ == "__main__":
-    build()
