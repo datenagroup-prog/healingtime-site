@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}音楽・BGMまとめ｜{{ site.site_name_ja }}{% endblock %}
+{% block description %}眠れない夜のヒーリングBGM、作業用のLo-fi、朝活向けのモーニングジャズなど、シーン別のおすすめ音楽まとめ一覧です。{% endblock %}
+{% block canonical_path %}/music/{% endblock %}
+{% block content %}
+<h1 class="pagetitle">音楽・BGMまとめ</h1>
+<p class="pagesub">シーンに合わせて選べる、YouTubeで楽しめるおすすめBGMのまとめ一覧です。</p>
+
+<div class="grid" style="grid-template-columns: repeat(2,1fr);">
+  {% for mu in music %}
+  <a class="card" href="/music/{{ mu.slug }}/">
+    <div class="d">{{ mu.date_ja }}</div>
+    <div class="q">{{ mu.title }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
