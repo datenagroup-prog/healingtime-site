@@ -54,6 +54,19 @@
 </section>
 
 <section class="block">
+  <h2>音楽・BGMまとめ</h2>
+  <div class="grid">
+    {% for mu in music %}
+    <a class="card" href="/music/{{ mu.slug }}/">
+      <div class="d">音楽・BGMまとめ ・ {{ mu.date_ja }}</div>
+      <div class="q">{{ mu.title }}</div>
+    </a>
+    {% endfor %}
+  </div>
+  <p style="text-align:right; margin-top:16px;"><a href="/music/" style="font-size:13px; color:var(--text-soft);">すべてのBGMまとめを見る →</a></p>
+</section>
+
+<section class="block">
   <h2>今日の言葉に合う、癒やしアイテム</h2>
   <div class="products">
     {% for p in products %}
