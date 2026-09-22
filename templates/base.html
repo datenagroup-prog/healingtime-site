@@ -11,7 +11,11 @@
 <meta property="og:title" content="{% block og_title %}{{ site.site_name_ja }}{% endblock %}">
 <meta property="og:description" content="{{ self.description() }}">
 <meta property="og:url" content="{{ site.base_url }}{{ self.canonical_path() }}">
-<meta name="twitter:card" content="summary">
+{% if site.og_image %}
+<meta property="og:image" content="{{ site.base_url }}{{ site.og_image }}">
+<meta name="twitter:image" content="{{ site.base_url }}{{ site.og_image }}">
+{% endif %}
+<meta name="twitter:card" content="summary_large_image">
 {% if site.google_site_verification %}
 <meta name="google-site-verification" content="{{ site.google_site_verification }}">
 {% endif %}
