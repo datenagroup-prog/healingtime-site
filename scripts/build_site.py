@@ -89,7 +89,7 @@ def build():
     (OUT_DIR / "music").mkdir(parents=True)
 
     # static assets
-    for asset in ["style.css", "favicon.ico", "favicon.svg", "apple-touch-icon.png"]:
+    for asset in ["style.css", "favicon.ico", "favicon.svg", "apple-touch-icon.png", "og-image.png"]:
         src = STATIC_DIR / asset
         if src.exists():
             shutil.copy(src, OUT_DIR / asset)
